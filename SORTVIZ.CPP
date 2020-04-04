@@ -318,7 +318,7 @@ int main()
 		{
 			/*
 			** The select, insert, bubble and quick variables indicated the selection
-			** of respectiovely selection, insertion, bubble and quick sort algorithms.
+			** of respectively selection, insertion, bubble and quick sort algorithms.
 			** If any one of them is '1' then other remaining will be low and the clear
 			** device action will not be taken. If the mouse pointer is not pointing to
 			** anyone of the options then all of them will be reset to '0' and unselect
