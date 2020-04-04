@@ -1,55 +1,4 @@
 
-/*
-//////////////////////////////////////////////////////////////////////////////////////
-
-	file name:  SORTVIZ.H 
-	version: 	1.0
-
-	License (SVIZ-3)
-	~~~~~~~~~~~~~~~
-
-	Copyright 2018 - 2019 
-
-	Redistribution and use in source and binary forms, with or without modification,
-	are permitted provided that the following conditions are met:
-
-	1. Redistributions or derivations of source code must retain the above copyright
-	notice, this list of conditions and the following disclaimer.
-
-	2. Redistributions or derivative works in binary form must reproduce the above
-	copyright notice. This list of conditions and the following	disclaimer must be
-	reproduced in the documentation and/or other materials provided with the distribution.
-
-	3. Neither the name of the copyright holder nor the names of its contributors may
-	be used to endorse or promote products derived from this software without specific
-	prior written permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS	"AS IS" AND ANY
-	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-	OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
-	SHALL THE COPYRIGHT	HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-	INCIDENTAL,	SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-	TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-	BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-	CONTRACT, STRICT LIABILITY, OR TORT	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-	SUCH DAMAGE. 
-
-
-
-	Authors
-	~~~~~~ 
-	Achyut Timilsena   	(01/BEX/074)
-	Nabin Dangi			(10/BEX/074)
-	Rohan Shrestha		(18/BEX/074)
-	Ronak Hada			(19/BEX/074)
-
-//////////////////////////////////////////////////////////////////////////////////////
-*/
-
-
-
-
 
 //Including some of the important hader files.
 #include<iostream.h>
@@ -83,9 +32,6 @@ int initmouse()
 //It shows the mouse pointer by giving interrupt 1.
 void showmouseptr()
 {
-	/*
-	** 1 is the interupt for showing mouse pointer.
-	*/
    in.x.ax = 1;
    int86(0X33, &in, &out);
 }
@@ -93,13 +39,6 @@ void showmouseptr()
 //Returns the mouse positon
 void getmousepos(int *button, int *x, int *y)
 {
-	/* 
-	** 3 is the interrupt for getting mouse button.
-	** The register 'bx' stores the number of mouse button clicked, 
-	** i.e 1 for left mouse button, 2 for right mouse button.
-	** The register 'cx' stores the x coordinates of the mouse position.
-	** The register 'dx' stores the y coordinates of the mouse position.
-	*/
 	in.x.ax = 3;
 	int86(0x33, &in, &out);
 	*button = out.x.bx;
@@ -107,16 +46,10 @@ void getmousepos(int *button, int *x, int *y)
 	*y = out.x.dx;
 }
 //Draws line by colouring lines during sorting process.
-void drawLines(int *lines, int num, int *i1 =NULL,
-			   int *i2 = NULL, int *min = NULL, int quick = 0)
+void drawLines(int *lines, int num, int *i1 =NULL, int *i2 = NULL, int *min = NULL, int quick = 0)
 {
 	setcolor(BLUE);
 	rectangle(0, 0, getmaxx(), getmaxy());
-	
-	/*  
-	** The global variable rec is set to 1 only when the following menue is to be
-	** printed on the screen.
-	*/
 	if( rec == 1)
 	{
 		setcolor(BLUE);
@@ -130,22 +63,12 @@ void drawLines(int *lines, int num, int *i1 =NULL,
 	int xref = 10, i, z = 10;
 	for(i = 0; i < num; ++i)
 	{
-		
-		/*
-		** i1 and i2 are the array position of the two values being compared,
-		** so they are coloured red.
-		*/
 		if(i == *i1 || i == *i2)
 		{
 			setcolor(RED);
 			line(xref + (z * i) , getmaxy() - 10,xref + (z * i),
 					getmaxy() - 10 - lines[i]);
 		}
-
-		/*
-		** The pivot is coloured blue for the insertion and the selection sort..
-		** This is used for algorithms other then quick.
-		*/
 		else if(i == *min && quick == 0)
 		{
 			setcolor(BLUE);
@@ -153,11 +76,6 @@ void drawLines(int *lines, int num, int *i1 =NULL,
 				getmaxy() - 10 - lines[i]);
 
 		}
-
-		/*
-		** This block is executed for Quick Sort.
-		** During partition the pivot is painted blue.
-		*/
 		else if(i != *min && quick == 1)
 		{
 			setcolor(BLUE);
@@ -168,11 +86,6 @@ void drawLines(int *lines, int num, int *i1 =NULL,
 					getmaxy() - 10 - lines[i]);
 
 		}
-
-		/*
-		** For other other conditions the lines are coloured green are assumed
-		** sorted.	
-		*/
 		else
 		{
 			setcolor(GREEN);
@@ -201,19 +114,15 @@ void drawlines(int *lines, int num)
 void selectionSort(int *lines, int n)
 {
 	int i, j, loc, min, temp;
-
-	// One by one move boundary of unsorted subarray
 	for (i = 0; i < n; i++)
 	{
 
-		// Find the minimum element in unsorted array
 		loc = i;
 		min = lines[loc];
 		for (j = i+1; j < n; j++)
 		{
 			if (min > lines[j])
 			{
-				//Now the j is the position of the minimum value.
 				min = lines[j];
 				loc = j;
 			}
@@ -224,7 +133,6 @@ void selectionSort(int *lines, int n)
 			drawLines(lines, n, &i, &j, &loc);
 			delay(50);
 	}
-	// Swap the found minimum element with the first element
 	temp = lines[i];
 	lines[i] = lines[loc];
 	lines[loc] = temp;
